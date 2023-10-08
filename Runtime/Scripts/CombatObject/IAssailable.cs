@@ -6,6 +6,9 @@ namespace Combat.Runtime
     /// </summary>
     public interface IAssailable
     {
-        public void Assailable();
+        /// <summary>
+        /// 受 击
+        /// </summary>
+        public void Assailable(object playerData);
     }
 }

@@ -1,20 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
 
 namespace Combat.Runtime
 {
     /// <summary>
     /// 增益
     /// </summary>
-    public abstract class Buff : IBuff
+    public class Buff : IBuff
     {
-        public abstract UnityEvent OnDestroy { get; set; }
-        public abstract int Sort { get; }
-        public abstract void Awake();
-        public abstract void Update();
-        public abstract void Destroy();
-        public abstract void Dispose();
+        public event IBuff.OnDestroy destroy;
+
+        public virtual int Order
+        {
+            get => 0;
+        }
+
+        public virtual E_Buff_Type BuffType => E_Buff_Type.Buff;
+
+        public virtual void Start()
+        {
+            
+        }
+        
+        public virtual object Calculate(object obj)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public virtual void Update(float deltaTime)
+        {
+            
+        }
+
+        public virtual void Destroy()
+        {
+            destroy?.Invoke();
+        }
+
+        public virtual void Dispose()
+        {
+            
+        }
     }
 }

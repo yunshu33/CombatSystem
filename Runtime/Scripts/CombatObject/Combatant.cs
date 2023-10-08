@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Combat.Runtime.CombatObject
+namespace Combat.Runtime
 {
     /// <summary>
     /// 战斗人员
@@ -14,21 +13,37 @@ namespace Combat.Runtime.CombatObject
         /// </summary>
         private readonly List<IBuff> buffs = new List<IBuff>();
 
+        /// <summary>
+        /// 添加buff
+        /// </summary>
+        /// <param name="buff"></param>
         public void AddBuff(IBuff buff)
         {
             buffs.Add(buff);
-            
+
+            buffs.Sort((a, b) => a.Order.CompareTo(b.Order));
+
+            buff.destroy += () => RemoveBuff(buff);
         }
-        
+
+        /// <summary>
+        /// 移除buff
+        /// </summary>
+        /// <param name="buff"></param>
+        public void RemoveBuff(IBuff buff)
+        {
+            buffs.Remove(buff);
+        }
+
         private void Update()
         {
             foreach (var buff in buffs)
             {
-                buff.Update();
+                buff.Update(Time.deltaTime);
             }
         }
 
-        public void Assailable()
+        public void Assailable(object playerData)
         {
         }
     }
